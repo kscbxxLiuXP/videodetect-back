@@ -4,7 +4,8 @@ from gevent import pywsgi
 
 import config
 from app.models.TaskManager import taskManager
-from .views import UserView, RecordView, FileView, TestView, FeatureView, MessageView, NoticeView, AppealView
+from .views import UserView, RecordView, FileView, TestView, FeatureView, MessageView, NoticeView, AppealView, \
+    FeedbackView
 
 
 def flask_app_run():
@@ -28,6 +29,7 @@ def flask_app_run():
     noticeblue = NoticeView.NoticeBlue
     messageblue = MessageView.MessageBlue
     appealblue = AppealView.AppealBlue
+    feedbackblue = FeedbackView.FeedbackBlue
     # api接口前缀
     apiPrefix = '/api'
 
@@ -51,6 +53,7 @@ def flask_app_run():
     app.register_blueprint(noticeblue, url_prefix=apiPrefix)
     app.register_blueprint(messageblue, url_prefix=apiPrefix)
     app.register_blueprint(appealblue, url_prefix=apiPrefix)
+    app.register_blueprint(feedbackblue, url_prefix=apiPrefix)
 
     @app.errorhandler(404)
     def page_not_fount(error):

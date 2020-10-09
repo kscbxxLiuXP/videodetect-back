@@ -912,7 +912,7 @@ def updateNotice(data):
         time = data.get('time')
         id = data.get('id')
         sql = "update notice set content='%s',publisher='%s',title='%s',time='%s' where id ='%s'" % (content, publisher,
-                                                                                                  title, time, id)
+                                                                                                     title, time, id)
         print(sql)
         cursor.execute(sql)
         db.commit()
@@ -920,3 +920,64 @@ def updateNotice(data):
     except Exception as e:
         db.rollback()
         return Utils.responseGen(1, '发布失败', '')
+
+
+def getFeedbackList():
+    sql = 'select * from feedback'
+    cursor.execute(sql)
+    records = cursor.fetchall()
+    data = []
+    for re in records:
+        feedback = {
+            'id': re[0],
+            'title': re[1],
+            'content': re[2],
+            'smtPerson': re[3],
+            'applied': re[4],
+            'applier': re[5],
+            'applyContent': re[6],
+            'smtTime': str(re[7]),
+            'applyTime': str(re[8]),
+            'readed': str(re[9])
+        }
+        data.append(feedback)
+    return Utils.responseGen(0, 'success', data)
+
+
+def newFeedback(data):
+    try:
+        title = data.get('title')
+        content = data.get('content')
+        smtPerson = data.get('smtPerson')
+        smtTime = Utils.time_format()
+        sql = "insert into feedback(title,content,smtPerson,smtTime) values ('%s','%s','%s','%s')" % (
+            title, content, smtPerson, smtTime)
+        cursor.execute(sql)
+        db.commit()
+        return Utils.responseGen(0, 'success', '')
+    except Exception as e:
+        db.rollback()
+        return Utils.responseGen(1, '提交失败', '')
+
+
+def replyFeedback(data):
+    try:
+        id = data.get('id')
+        applyTime = Utils.time_format()
+        applier = data.get('applier')
+        applyContent = data.get('applyContent')
+        sql = "update feedback set applyTime='%s',applier='%s',applyContent='%s',applied=1,readed=1 where id='%s'" % (
+            applyTime, applier, applyContent, id)
+        cursor.execute(sql)
+        db.commit()
+        return Utils.responseGen(0, 'success', '')
+    except Exception as e:
+        db.rollback()
+        return Utils.responseGen(1, '回复失败', '')
+
+
+def feedbackSetReaded(id):
+    sql = "update feedback set readed=1 where id = '%s'" % (id)
+    cursor.execute(sql)
+    db.commit()
+    return Utils.responseGen(0, 'success', '')
