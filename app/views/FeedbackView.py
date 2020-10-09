@@ -22,6 +22,6 @@ def replyFeedback():
     return DBUtil.replyFeedback(data)
 
 
-@FeedbackBlue.route('/feebackSetReaded/<id>')
+@FeedbackBlue.route('/feedbackSetReaded/<id>')
 def feedbackSetReaded(id):
     return DBUtil.feedbackSetReaded(id)

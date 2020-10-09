@@ -929,6 +929,7 @@ def getFeedbackList():
     data = []
     for re in records:
         feedback = {
+            'key':re[0],
             'id': re[0],
             'title': re[1],
             'content': re[2],
@@ -970,6 +971,7 @@ def replyFeedback(data):
             applyTime, applier, applyContent, id)
         cursor.execute(sql)
         db.commit()
+        Utils.sendMessage_fedbkReply(id)
         return Utils.responseGen(0, 'success', '')
     except Exception as e:
         db.rollback()

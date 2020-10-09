@@ -142,3 +142,58 @@ def sendNotice_finishDetect(id):
     new_cursor.execute(sql)
     new_db.commit()
     new_db.close()
+
+
+def sendMessage_fedbkReply(id):
+    new_db = Connection.newConnection()
+    new_cursor = new_db.cursor()
+    sql = "select * from feedback where id = '%s'" % (id)
+    new_cursor.execute(sql)
+    re = new_cursor.fetchone()
+    time = time_format()
+    title = re[1]
+    content = re[2]
+    smtPerson = re[3]
+    applier = re[5]
+    applyContent = re[6]
+    smtTime = str(re[7])
+    applyTime = str(re[8])
+
+    content = """<p>尊敬的
+        <u>%s</u>您好：</p>
+    <p>
+        <br>
+    </p>
+    <p class="ql-indent-1">感谢您给我们的反馈，我们对您的反馈做出了如下回复：</p>
+    <p class="ql-indent-1">
+        <br>
+    </p>
+    <p class="ql-indent-1">反馈人：%s</p>
+    <p class="ql-indent-1">反馈时间：%s</p>
+    <p class="ql-indent-1">问题概要：%s</p>
+    <p class="ql-indent-1">反馈内容：%s</p>
+    <p class="ql-indent-1">---------------------------</p>
+    <p class="ql-indent-1">处理人：%s</p>
+    <p class="ql-indent-1">处理时间：%s</p>
+    <p class="ql-indent-1">回复：%s</p>
+    <p class="ql-indent-1">
+        <br>
+    </p>
+    <p class="ql-indent-1">
+        <br>
+    </p>
+    <p class="ql-indent-1 ql-align-right">
+        <strong>
+            <em>
+                <u>VideoDetect</u>
+            </em>
+        </strong>
+    </p>
+    <p class="ql-indent-1 ql-align-right">保护您的视频版权</p>
+    <p class="ql-indent-1 ql-align-right">%s</p>""" % (
+    smtPerson, smtPerson, smtTime, title, content, applier, applyTime, applyContent, time)
+    sql = "INSERT INTO message (`mFrom`,`mTo`,`content`,`sendTime`,`readed`,`subject`) VALUES ('SYSTEM','%s','%s','%s',0,'回复-反馈-%s');" % (
+        smtPerson, content, time_format(), title)
+    new_cursor.execute(sql)
+    new_db.commit()
+    new_db.close()
