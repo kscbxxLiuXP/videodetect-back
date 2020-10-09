@@ -424,9 +424,9 @@ def getNoticeList():
     for n in record:
         notice = {
             'id': n[0],
+            'key': n[0],
             'content': n[1],
-            'time': n[2],
-            'timeformat': datetime.datetime.strftime(n[2], '%Y-%m-%d %H:%M:%S'),
+            'time': str(n[2]),
             'publisher': n[3],
             'title': n[4]
         }
@@ -877,3 +877,46 @@ def resolveAppeal(data):
         return Utils.responseGen(1, 'fail', '')
 
 
+def deleteNotice(id):
+    try:
+        sql = "delete from notice where id='%s'" % (id)
+        cursor.execute(sql)
+        db.commit()
+        return Utils.responseGen(0, '删除成功', '')
+    except Exception as e:
+        db.rollback()
+        return Utils.responseGen(1, '删除失败', '')
+
+
+def newNotice(data):
+    try:
+        content = data.get('content')
+        publisher = data.get('publisher')
+        title = data.get('title')
+        time = Utils.time_format()
+        sql = "insert into notice (title,time,publisher,content) values ('%s','%s','%s','%s')" % (
+            title, time, publisher, content)
+        cursor.execute(sql)
+        db.commit()
+        return Utils.responseGen(0, '发布成功', '')
+    except Exception as e:
+        db.rollback()
+        return Utils.responseGen(1, '发布失败', '')
+
+
+def updateNotice(data):
+    try:
+        content = data.get('content')
+        publisher = data.get('publisher')
+        title = data.get('title')
+        time = data.get('time')
+        id = data.get('id')
+        sql = "update notice set content='%s',publisher='%s',title='%s',time='%s' where id ='%s'" % (content, publisher,
+                                                                                                  title, time, id)
+        print(sql)
+        cursor.execute(sql)
+        db.commit()
+        return Utils.responseGen(0, '发布成功', '')
+    except Exception as e:
+        db.rollback()
+        return Utils.responseGen(1, '发布失败', '')
