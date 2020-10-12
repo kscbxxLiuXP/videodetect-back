@@ -404,16 +404,269 @@ def deleteVideoRecord(id):
 
 
 def getUserDashboard(username):
-    sql1 = "select nickname from user where username = '%s' ;" % (username)
-    cursor.execute(sql1)
+    # 昵称
+    sql = "select nickname from user where username = '%s' ;" % (username)
+    cursor.execute(sql)
     record = cursor.fetchone()
     nickname = record[0]
+    # 视频总数feed static data
+    sql = "select * from video where VideoUploaderName= '%s'" % (username)
+    cursor.execute(sql)
+    records = cursor.fetchall()
+    videos = []
+    # 总上传数
+    totalNum = 0
+    # 审核中
+    verifyNum = 0
+    # 申诉
+    appealNum = 0
+    # 已完成
+    finishNum = 0
+    failNum = 0
+    passNum = 0
+    for re in records:
+        video = {
+            'state': re[7],
+            'appealed': re[14]
+        }
+        totalNum += 1
+        if re[14] == 1:
+            appealNum += 1
+        if re[7] == '审核中':
+            verifyNum += 1
+        elif re[7] == '审核通过':
+            passNum += 1
+        elif re[7] == '不通过':
+            failNum += 1
 
+    # 通过率
+    passrate = int(passNum / totalNum * 100)
+    finishNum = passNum + failNum
+    # 公告listTop5
+    sql = "select * from notice order by time desc limit 5"
+    cursor.execute(sql)
+    record = cursor.fetchall()
+    notices = []
+    for n in record:
+        notice = {
+            'id': n[0],
+            'key': n[0],
+            'content': n[1],
+            'time': str(n[2]),
+            'publisher': n[3],
+            'title': n[4]
+        }
+        notices.append(notice)
+
+    # 创作记录
+    # 最近一年
+    year = getRecentYearData()
+    # 最近一个月
+    month = getRecentMonthData()
+    # 最近一周
+    week = getRecentWeekData()
     resbody = {
-        'nickname': nickname
+        'nickname': nickname,
+        'totalNum': totalNum,
+        'verifyNum': verifyNum,
+        'appealNum': appealNum,
+        'finishNum': finishNum,
+        'failNum': failNum,
+        'passNum': passNum,
+        'passrate': passrate,
+        'notices': notices,
+        'year': year,
+        'month': month,
+        'week': week,
     }
     re = Utils.responseGen(0, 'success', resbody)
     return re
+
+
+def getRecentYearData():
+    new_db = newConnection()
+    new_cursor = new_db.cursor()
+    # 取上一年的今天
+    lastYearToday = Utils.getLastYearTodayTime()
+    dateSequence = Utils.getYearDateSequence()
+    # sql_pass获取通过的数量
+    sql_pass = """SELECT 
+            DATE_FORMAT(`VideoUploadTime`, '%Y-%m') months,
+            count(*) sum
+            FROM
+            video
+            WHERE `VideoUploadTime` > '{}' and videostatus='审核通过'
+            GROUP BY months ;
+            """.format(lastYearToday)
+    new_cursor.execute(sql_pass)
+    records = new_cursor.fetchall()
+    data = {}
+    for re in records:
+        data[re[0]] = re[1]
+    data_pass = Utils.DateListMatchSql(dateSequence, data)
+
+    # sql_process获取审核中的数量
+    sql_process = """SELECT 
+               DATE_FORMAT(`VideoUploadTime`, '%Y-%m') months,
+               count(*) sum
+               FROM
+               video
+               WHERE `VideoUploadTime` > '{}' and videostatus='审核中'
+               GROUP BY months ;
+               """.format(lastYearToday)
+    new_cursor.execute(sql_process)
+    records = new_cursor.fetchall()
+    data = {}
+    for re in records:
+        data[re[0]] = re[1]
+    data_process = Utils.DateListMatchSql(dateSequence, data)
+
+    # sql_pass获取审核失败的数量
+    sql_fail = """SELECT 
+               DATE_FORMAT(`VideoUploadTime`, '%Y-%m') months,
+               count(*) sum
+               FROM
+               video
+               WHERE `VideoUploadTime` > '{}' and videostatus='不通过'
+               GROUP BY months ;
+               """.format(lastYearToday)
+    new_cursor.execute(sql_fail)
+    records = new_cursor.fetchall()
+    data = {}
+    for re in records:
+        data[re[0]] = re[1]
+    data_fail = Utils.DateListMatchSql(dateSequence, data)
+    new_db.close()
+    return {
+        'process': data_process,
+        'pass': data_pass,
+        'fail': data_fail,
+        'dateSequence': dateSequence
+    }
+
+
+def getRecentMonthData():
+    new_db = newConnection()
+    new_cursor = new_db.cursor()
+    # 取一个月前的日期
+    oneMonthAgoDate, dateSequence = Utils.getMonthDate()
+
+    # sql_pass获取通过的数量
+    sql_pass = """SELECT
+                    DATE_FORMAT(`VideoUploadTime`, '%Y-%m-%d') days,
+                    count(*) sum
+                  FROM
+                    video
+                  WHERE `VideoUploadTime` > '{}' and videostatus='审核通过'
+                  GROUP BY days ;
+            """.format(oneMonthAgoDate)
+    new_cursor.execute(sql_pass)
+    records = new_cursor.fetchall()
+    data = {}
+    for re in records:
+        data[re[0]] = re[1]
+    data_pass = Utils.DateListMatchSql(dateSequence, data)
+
+    # sql_process获取审核中的数量
+    sql_process = """SELECT
+                    DATE_FORMAT(`VideoUploadTime`, '%Y-%m-%d') days,
+                    count(*) sum
+                  FROM
+                    video
+                  WHERE `VideoUploadTime` > '{}' and videostatus='审核中'
+                  GROUP BY days ;
+            """.format(oneMonthAgoDate)
+    new_cursor.execute(sql_process)
+    records = new_cursor.fetchall()
+    data = {}
+    for re in records:
+        data[re[0]] = re[1]
+    data_process = Utils.DateListMatchSql(dateSequence, data)
+
+    # sql_pass获取审核失败的数量
+    sql_fail = """SELECT
+                    DATE_FORMAT(`VideoUploadTime`, '%Y-%m-%d') days,
+                    count(*) sum
+                  FROM
+                    video
+                  WHERE `VideoUploadTime` > '{}' and videostatus='不通过'
+                  GROUP BY days ;
+            """.format(oneMonthAgoDate)
+    new_cursor.execute(sql_fail)
+    records = new_cursor.fetchall()
+    data = {}
+    for re in records:
+        data[re[0]] = re[1]
+    data_fail = Utils.DateListMatchSql(dateSequence, data)
+    new_db.close()
+    return {
+        'process': data_process,
+        'pass': data_pass,
+        'fail': data_fail,
+        'dateSequence': dateSequence
+    }
+
+
+def getRecentWeekData():
+    new_db = newConnection()
+    new_cursor = new_db.cursor()
+    # 取一个月前的日期
+    oneMonthAgoDate, dateSequence = Utils.getWeekDate()
+
+    # sql_pass获取通过的数量
+    sql_pass = """SELECT
+                    DATE_FORMAT(`VideoUploadTime`, '%Y-%m-%d') days,
+                    count(*) sum
+                  FROM
+                    video
+                  WHERE `VideoUploadTime` > '{}' and videostatus='审核通过'
+                  GROUP BY days ;
+            """.format(oneMonthAgoDate)
+    new_cursor.execute(sql_pass)
+    records = new_cursor.fetchall()
+    data = {}
+    for re in records:
+        data[re[0]] = re[1]
+    data_pass = Utils.DateListMatchSql(dateSequence, data)
+
+    # sql_process获取审核中的数量
+    sql_process = """SELECT
+                    DATE_FORMAT(`VideoUploadTime`, '%Y-%m-%d') days,
+                    count(*) sum
+                  FROM
+                    video
+                  WHERE `VideoUploadTime` > '{}' and videostatus='审核中'
+                  GROUP BY days ;
+            """.format(oneMonthAgoDate)
+    new_cursor.execute(sql_process)
+    records = new_cursor.fetchall()
+    data = {}
+    for re in records:
+        data[re[0]] = re[1]
+    data_process = Utils.DateListMatchSql(dateSequence, data)
+
+    # sql_pass获取审核失败的数量
+    sql_fail = """SELECT
+                    DATE_FORMAT(`VideoUploadTime`, '%Y-%m-%d') days,
+                    count(*) sum
+                  FROM
+                    video
+                  WHERE `VideoUploadTime` > '{}' and videostatus='不通过'
+                  GROUP BY days ;
+            """.format(oneMonthAgoDate)
+    new_cursor.execute(sql_fail)
+    records = new_cursor.fetchall()
+    data = {}
+    for re in records:
+        data[re[0]] = re[1]
+    data_fail = Utils.DateListMatchSql(dateSequence, data)
+    new_db.close()
+    return {
+        'process': data_process,
+        'pass': data_pass,
+        'fail': data_fail,
+        'dateSequence': dateSequence
+    }
 
 
 def getNoticeList():
@@ -431,7 +684,6 @@ def getNoticeList():
             'title': n[4]
         }
         notices.append(notice)
-        print(n)
 
     resbody = {'notices': notices}
 
@@ -929,7 +1181,7 @@ def getFeedbackList():
     data = []
     for re in records:
         feedback = {
-            'key':re[0],
+            'key': re[0],
             'id': re[0],
             'title': re[1],
             'content': re[2],

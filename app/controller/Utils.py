@@ -1,7 +1,7 @@
 import datetime
 import hashlib
 import os
-
+import time
 # 获取文件MD5值
 import cv2
 from flask import make_response, jsonify
@@ -191,9 +191,89 @@ def sendMessage_fedbkReply(id):
     </p>
     <p class="ql-indent-1 ql-align-right">保护您的视频版权</p>
     <p class="ql-indent-1 ql-align-right">%s</p>""" % (
-    smtPerson, smtPerson, smtTime, title, content, applier, applyTime, applyContent, time)
+        smtPerson, smtPerson, smtTime, title, content, applier, applyTime, applyContent, time)
     sql = "INSERT INTO message (`mFrom`,`mTo`,`content`,`sendTime`,`readed`,`subject`) VALUES ('SYSTEM','%s','%s','%s',0,'回复-反馈-%s');" % (
         smtPerson, content, time_format(), title)
     new_cursor.execute(sql)
     new_db.commit()
     new_db.close()
+
+
+def getLastYearTodayTime():
+    # date = '2020-10-12 14:02'
+    # timeArray = time.strptime(date, "%Y-%m-%d %H:%M")
+    # timeStamp = (time.mktime(timeArray))  # 转化为时间戳
+    timeStamp = time.time()
+    end_time = time.strftime('%Y-%m-%d', time.localtime(timeStamp))
+    start_year = int(time.strftime('%Y', time.localtime(timeStamp))) - 1
+    month_day = time.strftime('%m-%d', time.localtime(timeStamp))
+    start_time = '{}-{} 00:00:00'.format(start_year, month_day)
+    return start_time
+
+
+def getYearDateSequence():
+    # 得到现在的时间  得到now等于2016年9月25日
+    now = datetime.datetime.now()
+    # 得到今年的的时间 （年份） 得到的today_year等于2016年
+    today_year = now.year
+    # 今年的时间减去1，得到去年的时间。last_year等于2015
+    last_year = int(now.year) - 1
+    # 得到今年的每个月的时间。today_year_months等于1 2 3 4 5 6 7 8 9，
+    today_year_months = range(1, now.month + 1)
+    # 得到去年的每个月的时间  last_year_months 等于10 11 12
+    last_year_months = range(now.month + 1, 13)
+    # 定义列表去年的数据
+    data_list_lasts = []
+    # 通过for循环，得到去年的时间夹月份的列表
+    # 先遍历去年每个月的列表
+    for last_year_month in last_year_months:
+        # 定义date_list 去年加上去年的每个月
+        date_list = '%s-%02d' % (last_year, last_year_month)
+        # 通过函数append，得到去年的列表
+        data_list_lasts.append(date_list)
+
+    data_list_todays = []
+    # 通过for循环，得到今年的时间夹月份的列表
+    # 先遍历今年每个月的列表
+    for today_year_month in today_year_months:
+        # 定义date_list 去年加上今年的每个月
+        data_list = '%s-%02d' % (today_year, today_year_month)
+        # 通过函数append，得到今年的列表
+        data_list_todays.append(data_list)
+    # 去年的时间数据加上今年的时间数据得到年月时间列表
+    data_year_month = data_list_lasts + data_list_todays
+    return data_year_month
+
+
+def getMonthDate():
+    begin_date = (datetime.datetime.now() - datetime.timedelta(days=30)).strftime("%Y-%m-%d")
+    b_date = begin_date + " 00:00:00"
+    date_list = []
+    begin_date = datetime.datetime.strptime(begin_date, "%Y-%m-%d")
+    end_date = datetime.datetime.strptime(time.strftime('%Y-%m-%d', time.localtime(time.time())), "%Y-%m-%d")
+    while begin_date <= end_date:
+        date_str = begin_date.strftime("%Y-%m-%d")
+        date_list.append(date_str)
+        begin_date += datetime.timedelta(days=1)
+    return b_date,date_list
+
+def getWeekDate():
+    begin_date = (datetime.datetime.now() - datetime.timedelta(days=6)).strftime("%Y-%m-%d")
+    b_date = begin_date + " 00:00:00"
+    date_list = []
+    begin_date = datetime.datetime.strptime(begin_date, "%Y-%m-%d")
+    end_date = datetime.datetime.strptime(time.strftime('%Y-%m-%d', time.localtime(time.time())), "%Y-%m-%d")
+    while begin_date <= end_date:
+        date_str = begin_date.strftime("%Y-%m-%d")
+        date_list.append(date_str)
+        begin_date += datetime.timedelta(days=1)
+    return b_date,date_list
+
+def DateListMatchSql(dateSequence, sqlData):
+    data = []
+    for date in dateSequence:
+        if sqlData.__contains__(date):
+            data.append(sqlData[date])
+        else:
+            data.append(0)
+    return data
