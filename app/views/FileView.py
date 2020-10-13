@@ -1,6 +1,6 @@
 from flask import Blueprint, request, send_from_directory, Response
 import json
-from app.controller import MySqlUtil as DBUtil
+from app.controller import MySqlUtil as DBUtil, Utils
 from app.controller import FileUtil
 import config
 
@@ -30,7 +30,41 @@ def fileDeleteByMD5(md5):
 # 根据文件的id值删除视频文件
 @FileBlue.route('/fileDelete/id/<id>', methods=['GET'])
 def fileDeleteByID(id):
-    return FileUtil.fileDeleteByID(id)
+    a = FileUtil.fileDeleteByID(id)
+    # 删除对应记录
+    b = DBUtil.deleteVideoRecord(id)
+    result = 0 if (a == 0 and b == 0) else 1
+    return Utils.responseGen(result, '', '')
+
+
+@FileBlue.route('/deleteFile/<id>')
+def deleteFile(id):
+    result = deleteFiles(id)
+    return Utils.responseGen(result, '', '')
+
+
+def deleteFiles(id):
+    a = FileUtil.fileDeleteByID(id)
+    # 删除对应记录
+    b = DBUtil.deleteVideoRecord(id)
+    result = 0 if (a == 0 and b == 0) else 1
+    return result
+
+
+@FileBlue.route('/deleteManyFile', methods=['POST'])
+def deleteManyFile(id):
+    data = json.loads(request.get_data(as_text=True))
+    failed = []
+    for video in data:
+        id = video.get('id')
+        name = video.get('name')
+        result = deleteFiles(id)
+        if result != 0:
+            failed.append(name)
+    if failed.__len__() == 0:
+        return Utils.responseGen(0, '删除成功', '')
+    else:
+        return Utils.responseGen(1, '删除失败', failed)
 
 
 # 返回一个video的json对象

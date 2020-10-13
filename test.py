@@ -249,7 +249,9 @@ if __name__ == "__main__":
     # getYearTime()
     # getYearMonth()
     # getMonthDate()
-    getWeekDate()
-    print(Utils.getMonthDate())
-    print(Utils.getWeekDate())
+    # getWeekDate()
+    # print(Utils.getMonthDate())
+    # print(Utils.getWeekDate())
     # getRecentYearData()
+    list=['s']
+    print(list.__len__())

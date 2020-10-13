@@ -391,16 +391,22 @@ def getVideo(id):
 
 
 def deleteVideoRecord(id):
+    newdb = newConnection()
+    newcursor = newdb.cursor()
     # SQL 删除语句
     sql = "DELETE FROM Video WHERE VideoID='%s'" % (id)
     try:
         # 执行SQL语句
-        cursor.execute(sql)
+        newcursor.execute(sql)
         # 提交修改
-        db.commit()
+        newdb.commit()
+        newdb.close()
+        return 0
     except:
         # 发生错误时回滚
-        db.rollback()
+        newdb.rollback()
+        newdb.close()
+        return 1
 
 
 def getUserDashboard(username):
@@ -1235,3 +1241,21 @@ def feedbackSetReaded(id):
     cursor.execute(sql)
     db.commit()
     return Utils.responseGen(0, 'success', '')
+
+
+def deleteFeature(data):
+    try:
+        authPassword = data.get('authPassword')
+        id = data.get('id')
+        if (authPassword != 'BigChuang2020'):
+            res = Utils.responseGen(1, '授权码错误,删除失败', '')
+            return res
+        sql = "delete from feature where feature id = '%s'" % (id)
+        cursor.execute(sql)
+        db.commit()
+        re = Utils.responseGen(0, "删除成功", '')
+        return re
+    except Exception as e:
+        db.rollback()
+        res = Utils.responseGen(1, '删除失败', '')
+        return res

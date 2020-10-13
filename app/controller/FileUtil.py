@@ -40,7 +40,7 @@ def fileUpload(file, username):
                              info['fps'], info['length'])
         # 添加检测队列
         taskManager.addTask(id)
-        DBUtil.addHistory(id,1,Utils.time_format(),"上传成功",username,1)
+        DBUtil.addHistory(id, 1, Utils.time_format(), "上传成功", username, 1)
 
         return json.dumps({'code': 0})
     except Exception as e:
@@ -78,8 +78,8 @@ def videoAdd(file, username):
 def fileDeleteByMD5(md5):
     # 由MD5获取videoID
     id = DBUtil.MD5_To_ID(md5)
-    response = fileDeleteByID(id)
-    return response
+    result = fileDeleteByID(id)
+    return Utils.responseGen(result, '', '')
 
 
 def fileDeleteByID(id):
@@ -91,14 +91,12 @@ def fileDeleteByID(id):
         file_path = getVideoAddress(id)
         if os.path.exists(file_path):
             os.remove(file_path)
-            # 删除对应记录
-            DBUtil.deleteVideoRecord(id)
-            return json.dumps({'code': 0})
+        if os.path.exists(file_path):
+            return 1
         else:
-            return json.dumps({'code': -1, 'message': '文件不存在'})
+            return 0
     except Exception as e:
-        print(str(e))
-        return json.dumps({'code': -1, 'message': str(e)})
+        return 1
 
 
 # 根据文件id生成文件名称
@@ -120,7 +118,6 @@ def getVideoDir(videoID):
     status = video.get('status')
     address = ""
     if status != "审核通过":
-
         address = upload_folder
     else:
         address = videoBase
