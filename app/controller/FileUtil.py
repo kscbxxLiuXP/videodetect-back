@@ -5,7 +5,7 @@ import threading
 
 import cv2
 
-from app.controller import MySqlUtil as DBUtil
+from app.controller import MySqlUtil as DBUtil, Connection
 from app.controller import Utils
 from app.controller import VideoDBManage
 from app.models.TaskManager import taskManager
@@ -17,6 +17,51 @@ featureBase = config.FEATURE_DATABASE
 tmpFolder = config.TMP_FOLDER
 
 base_path = os.path.abspath(os.path.dirname(__file__))
+
+
+# 用户取消修改头像
+def cancelAvatarChange(username):
+    try:
+        src = config.PIC_TMP + username + '.jpg'
+        # 删除avatar中的文件
+        if os.path.exists(src):
+            os.remove(src)
+        return Utils.responseGen(0, 'success', '')
+    except Exception as e:
+        return Utils.responseGen(1, 'fail', '')
+
+
+# 用户确认更改头像
+def confirmAvatarChange(username):
+    try:
+        src = config.PIC_TMP + username + '.jpg'
+        dst = config.AVATAR_FOLDER + username + '.jpg'
+        # 删除avatar中的文件
+        if os.path.exists(dst):
+            os.remove(dst)
+        shutil.move(src, dst)
+        newdb = Connection.newConnection()
+        newcursor = newdb.cursor()
+        sql = "update user set avatar ='%s' where username = '%s'" % (username, username)
+        newcursor.execute(sql)
+        newdb.commit()
+        return Utils.responseGen(0, 'success', '')
+    except Exception as e:
+        print(str(e))
+        return Utils.responseGen(1, 'fail', '')
+
+
+# 用户上传头像
+def avatarUpload(file, username):
+    try:
+        filepath = config.PIC_TMP + username + '.jpg'
+        # 先删除临时文件夹中已有的图片
+        if os.path.isfile(filepath):
+            os.remove(filepath)
+        file.save(filepath)
+        return Utils.responseGen(0, 'success', '')
+    except Exception as e:
+        return json.dumps({'code': -1, 'message': str(e)})
 
 
 # 用户上传文件
@@ -42,7 +87,7 @@ def fileUpload(file, username):
         taskManager.addTask(id)
         DBUtil.addHistory(id, 1, Utils.time_format(), "上传成功", username, 1)
 
-        return json.dumps({'code': 0})
+        return json.dumps({'code': 1})
     except Exception as e:
         print(str(e))
         return json.dumps({'code': -1, 'message': str(e)})

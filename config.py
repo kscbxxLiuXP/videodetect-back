@@ -17,12 +17,13 @@ SQL_PSD = "090312"  # 本机mysql 连接密码
 # 若检测不成功，则保留视频于原文件夹
 
 
-ROOT_FOLDER = os.getcwd()+'/data/'
+ROOT_FOLDER = os.getcwd() + '/data/'
 UPLOAD_FOLDER = ROOT_FOLDER + "/Upload/"  # 用户上传文件存储文件夹,待检测
 VIDEO_DATABASE = ROOT_FOLDER + "/VideoDB/video/"  # 视频库文件夹，里面存储的是视频文件
 FEATURE_DATABASE = ROOT_FOLDER + "/VideoDB/feature/"  # 特征库文件夹，里面存储的是视频库中视频对应的特征文件
 TMP_FOLDER = ROOT_FOLDER + "/DetectTmp/"  # 临时文件夹，用于处理当前任务视频的
 PIC_FOLDER = ROOT_FOLDER + "/pic/"  # 存放图片文件夹
 AVATAR_FOLDER = ROOT_FOLDER + "/avatar/"  # 存放用户头像的文件夹
+PIC_TMP = ROOT_FOLDER + "/PicTmp/"  # 图片临时文件夹
 # 允许并行处理的任务数
 MAX_VIDEO_PROCESS = 5

@@ -2,6 +2,8 @@ import datetime
 import hashlib
 import json
 import os
+import shutil
+
 import numpy as np
 from os import listdir
 import calendar
@@ -150,9 +152,8 @@ def getYearTime():
 
 
 def getMonthDate():
-
     begin_date = (datetime.datetime.now() - datetime.timedelta(days=30)).strftime("%Y-%m-%d")
-    b_date=begin_date +" 00:00:00"
+    b_date = begin_date + " 00:00:00"
     date_list = []
     begin_date = datetime.datetime.strptime(begin_date, "%Y-%m-%d")
     end_date = datetime.datetime.strptime(time.strftime('%Y-%m-%d', time.localtime(time.time())), "%Y-%m-%d")
@@ -253,5 +254,7 @@ if __name__ == "__main__":
     # print(Utils.getMonthDate())
     # print(Utils.getWeekDate())
     # getRecentYearData()
-    list=['s']
-    print(list.__len__())
+    print()
+    src=config.AVATAR_FOLDER+'a.txt'
+    dst=config.PIC_TMP+'a.txt'
+    print(os.path.exists(dst))

@@ -120,3 +120,27 @@ def avatar(id):
         image = f.read()
     resp = Response(image, mimetype="image/jpeg")
     return resp
+
+
+@FileBlue.route('/avatar/upload/<username>', methods=['POST'])
+def avatarUpload(username):
+    f = request.files["file"]
+    return FileUtil.avatarUpload(f, username)
+
+
+@FileBlue.route('/tmpPic/<id>')
+def tmpPic(id):
+    with open(config.PIC_TMP + id + '.jpg', 'rb') as f:
+        image = f.read()
+    resp = Response(image, mimetype="image/jpeg")
+    return resp
+
+
+@FileBlue.route('/confirmAvatarChange/<username>')
+def confirmAvatarChange(username):
+    return FileUtil.confirmAvatarChange(username)
+
+
+@FileBlue.route('/cancelAvatarChange/<username>')
+def cancelAvatarChange(username):
+    return FileUtil.cancelAvatarChange(username)
