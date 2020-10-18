@@ -466,11 +466,11 @@ def getUserDashboard(username):
 
     # 创作记录
     # 最近一年
-    year = getRecentYearData()
+    year = getRecentYearData(username)
     # 最近一个月
-    month = getRecentMonthData()
+    month = getRecentMonthData(username)
     # 最近一周
-    week = getRecentWeekData()
+    week = getRecentWeekData(username)
     resbody = {
         'nickname': nickname,
         'totalNum': totalNum,
@@ -489,7 +489,7 @@ def getUserDashboard(username):
     return re
 
 
-def getRecentYearData():
+def getRecentYearData(username):
     new_db = newConnection()
     new_cursor = new_db.cursor()
     # 取上一年的今天
@@ -501,9 +501,9 @@ def getRecentYearData():
             count(*) sum
             FROM
             video
-            WHERE `VideoUploadTime` > '{}' and videostatus='审核通过'
+            WHERE `VideoUploadTime` > '{}' and videostatus='审核通过' and VideoUploaderName='{}'
             GROUP BY months ;
-            """.format(lastYearToday)
+            """.format(lastYearToday, username)
     new_cursor.execute(sql_pass)
     records = new_cursor.fetchall()
     data = {}
@@ -517,9 +517,9 @@ def getRecentYearData():
                count(*) sum
                FROM
                video
-               WHERE `VideoUploadTime` > '{}' and videostatus='审核中'
+               WHERE `VideoUploadTime` > '{}' and videostatus='审核中' and VideoUploaderName='{}'
                GROUP BY months ;
-               """.format(lastYearToday)
+               """.format(lastYearToday, username)
     new_cursor.execute(sql_process)
     records = new_cursor.fetchall()
     data = {}
@@ -533,9 +533,9 @@ def getRecentYearData():
                count(*) sum
                FROM
                video
-               WHERE `VideoUploadTime` > '{}' and videostatus='不通过'
+               WHERE `VideoUploadTime` > '{}' and videostatus='不通过' and VideoUploaderName='{}'
                GROUP BY months ;
-               """.format(lastYearToday)
+               """.format(lastYearToday, username)
     new_cursor.execute(sql_fail)
     records = new_cursor.fetchall()
     data = {}
@@ -551,7 +551,7 @@ def getRecentYearData():
     }
 
 
-def getRecentMonthData():
+def getRecentMonthData(username):
     new_db = newConnection()
     new_cursor = new_db.cursor()
     # 取一个月前的日期
@@ -563,9 +563,9 @@ def getRecentMonthData():
                     count(*) sum
                   FROM
                     video
-                  WHERE `VideoUploadTime` > '{}' and videostatus='审核通过'
+                  WHERE `VideoUploadTime` > '{}' and videostatus='审核通过' and VideoUploaderName='{}'
                   GROUP BY days ;
-            """.format(oneMonthAgoDate)
+            """.format(oneMonthAgoDate, username)
     new_cursor.execute(sql_pass)
     records = new_cursor.fetchall()
     data = {}
@@ -579,9 +579,9 @@ def getRecentMonthData():
                     count(*) sum
                   FROM
                     video
-                  WHERE `VideoUploadTime` > '{}' and videostatus='审核中'
+                  WHERE `VideoUploadTime` > '{}' and videostatus='审核中' and VideoUploaderName='{}'
                   GROUP BY days ;
-            """.format(oneMonthAgoDate)
+            """.format(oneMonthAgoDate, username)
     new_cursor.execute(sql_process)
     records = new_cursor.fetchall()
     data = {}
@@ -595,9 +595,9 @@ def getRecentMonthData():
                     count(*) sum
                   FROM
                     video
-                  WHERE `VideoUploadTime` > '{}' and videostatus='不通过'
+                  WHERE `VideoUploadTime` > '{}' and videostatus='不通过' and VideoUploaderName='{}'
                   GROUP BY days ;
-            """.format(oneMonthAgoDate)
+            """.format(oneMonthAgoDate, username)
     new_cursor.execute(sql_fail)
     records = new_cursor.fetchall()
     data = {}
@@ -613,7 +613,7 @@ def getRecentMonthData():
     }
 
 
-def getRecentWeekData():
+def getRecentWeekData(username):
     new_db = newConnection()
     new_cursor = new_db.cursor()
     # 取一个月前的日期
@@ -625,9 +625,9 @@ def getRecentWeekData():
                     count(*) sum
                   FROM
                     video
-                  WHERE `VideoUploadTime` > '{}' and videostatus='审核通过'
+                  WHERE `VideoUploadTime` > '{}' and videostatus='审核通过' and VideoUploaderName='{}'
                   GROUP BY days ;
-            """.format(oneMonthAgoDate)
+            """.format(oneMonthAgoDate, username)
     new_cursor.execute(sql_pass)
     records = new_cursor.fetchall()
     data = {}
@@ -641,9 +641,9 @@ def getRecentWeekData():
                     count(*) sum
                   FROM
                     video
-                  WHERE `VideoUploadTime` > '{}' and videostatus='审核中'
+                  WHERE `VideoUploadTime` > '{}' and videostatus='审核中' and VideoUploaderName='{}'
                   GROUP BY days ;
-            """.format(oneMonthAgoDate)
+            """.format(oneMonthAgoDate, username)
     new_cursor.execute(sql_process)
     records = new_cursor.fetchall()
     data = {}
@@ -657,9 +657,9 @@ def getRecentWeekData():
                     count(*) sum
                   FROM
                     video
-                  WHERE `VideoUploadTime` > '{}' and videostatus='不通过'
+                  WHERE `VideoUploadTime` > '{}' and videostatus='不通过' and VideoUploaderName='{}'
                   GROUP BY days ;
-            """.format(oneMonthAgoDate)
+            """.format(oneMonthAgoDate, username)
     new_cursor.execute(sql_fail)
     records = new_cursor.fetchall()
     data = {}
@@ -676,7 +676,7 @@ def getRecentWeekData():
 
 
 def getNoticeList():
-    sql = "select * from notice"
+    sql = "select * from notice order by time desc"
     cursor.execute(sql)
     record = cursor.fetchall()
     notices = []
