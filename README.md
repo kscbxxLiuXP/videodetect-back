@@ -19,13 +19,11 @@
 
 `pip install opencv-python`
 
-### 4.pytorch
-
 若安装失败，先将pip工具更新
 
-### 4、pytorch
+### 4.pytorch
 
-前往https://pytorch.org/get-started/locally/官网下载
+前往 https://pytorch.org/get-started/locally/ 官网下载
 
 选择pip,CUDA选择None,
 
