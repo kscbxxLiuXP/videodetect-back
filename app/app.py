@@ -34,16 +34,16 @@ def flask_app_run():
     apiPrefix = '/api'
 
     # 主页面蓝图
-    # main = Blueprint('main', __name__, template_folder='templates', static_folder='static', static_url_path="/static")
+    main = Blueprint('main', __name__, template_folder='templates', static_folder='static', static_url_path="/static")
 
-    # main = Blueprint('main', __name__)
-    #
-    # @main.route('/', defaults={'path': ''})
-    # @main.route('/<path:path>')
-    # def index(path):
-    #     return render_template('index.html')
+    main = Blueprint('main', __name__)
 
-    # app.register_blueprint(main)
+    @main.route('/', defaults={'path': ''})
+    @main.route('/<path:path>')
+    def index(path):
+        return render_template('index.html')
+
+    app.register_blueprint(main)
     app.register_blueprint(test_blue)
     app.register_blueprint(user_blue, url_prefix=apiPrefix)
     app.register_blueprint(file_blue, url_prefix=apiPrefix)
