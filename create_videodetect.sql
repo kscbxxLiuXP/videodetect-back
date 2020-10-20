@@ -1,22 +1,56 @@
 -- MySQL dump 10.13  Distrib 8.0.21, for Win64 (x86_64)
 --
--- Host: localhost    Database: videodetect
+-- Host: 127.0.0.1    Database: videodetect
 -- ------------------------------------------------------
 -- Server version	8.0.21
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!50503 SET NAMES utf8 */;
+/*!50503 SET NAMES utf8mb4 */;
 /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
 /*!40103 SET TIME_ZONE='+00:00' */;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-drop database if exists `videodetect`;
-create database videodetect;
-use videodetect;
+
+DROP DATABASE if exists `videodetect`;
+CREATE DATABASE `videodetect`;
+USE `videodetect`;
+
+--
+-- Table structure for table `appeal`
+--
+
+DROP TABLE IF EXISTS `appeal`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `appeal` (
+  `appealID` int NOT NULL AUTO_INCREMENT,
+  `videoID` varchar(45) DEFAULT NULL,
+  `appealTime` datetime DEFAULT NULL,
+  `appealerName` varchar(45) DEFAULT NULL,
+  `appealContent` varchar(45) DEFAULT NULL,
+  `state` int DEFAULT NULL,
+  `appealResult` int DEFAULT NULL,
+  `resolver` varchar(45) DEFAULT NULL,
+  `resolveTime` datetime DEFAULT NULL,
+  `appealFeedback` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`appealID`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `appeal`
+--
+
+LOCK TABLES `appeal` WRITE;
+/*!40000 ALTER TABLE `appeal` DISABLE KEYS */;
+INSERT INTO `appeal` VALUES (1,'20200919221024373598','2020-10-06 21:02:16','admin','1231',2,0,'admin','2020-10-07 10:47:25','23132'),(2,'20201008120231877931','2020-10-08 16:29:14','test1','222',2,0,'admin','2020-10-08 22:48:03','121321'),(3,'20201008120509345731','2020-10-08 16:29:25','test1','111',2,0,'admin','2020-10-08 22:48:17','13123'),(4,'20201008120632322611','2020-10-08 21:53:01','test1','1111',2,0,'admin','2020-10-08 22:48:27','1002230'),(5,'20201010192428351593','2020-10-10 19:26:29','admin','153163156',2,0,'admin','2020-10-10 19:27:36','15615616');
+/*!40000 ALTER TABLE `appeal` ENABLE KEYS */;
+UNLOCK TABLES;
+
 --
 -- Table structure for table `copy`
 --
@@ -25,15 +59,15 @@ DROP TABLE IF EXISTS `copy`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `copy` (
-    `videoID` VARCHAR(45) NOT NULL,
-    `copyVideoID` VARCHAR(45) NOT NULL,
-    `copyScore` VARCHAR(45) NOT NULL,
-    `startTime` VARCHAR(45) DEFAULT NULL,
-    `endTime` VARCHAR(45) DEFAULT NULL,
-    `cStartTime` VARCHAR(45) DEFAULT NULL,
-    `cEndTime` VARCHAR(45) DEFAULT NULL,
-    PRIMARY KEY (`videoID`)
-)  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4 COLLATE = UTF8MB4_0900_AI_CI;
+  `videoID` varchar(45) NOT NULL,
+  `copyVideoID` varchar(45) NOT NULL,
+  `copyScore` varchar(45) NOT NULL,
+  `startTime` varchar(45) DEFAULT NULL,
+  `endTime` varchar(45) DEFAULT NULL,
+  `cStartTime` varchar(45) DEFAULT NULL,
+  `cEndTime` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`videoID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -42,7 +76,7 @@ CREATE TABLE `copy` (
 
 LOCK TABLES `copy` WRITE;
 /*!40000 ALTER TABLE `copy` DISABLE KEYS */;
-INSERT INTO `copy` VALUES ('20200608230235294134','1244621900','28398.66668701172','00:00:47:00','00:01:43:00','00:03:45:00','00:04:40:20');
+INSERT INTO `copy` VALUES ('20200608230235294134','1244621900','28398.66668701172','00:00:47:00','00:01:43:00','00:03:45:00','00:04:40:20'),('20200919221024373598','1293727100','4372.084777832031','00:00:04:10','00:00:10:10','00:16:39:15','00:16:45:15'),('20200927110108906880','1244627000','11317.648376464844','00:00:01:00','00:00:18:00','00:09:40:05','00:10:03:15'),('20200929105601100677','1293727100','20528.44873046875','00:00:50:00','00:01:17:05','00:25:37:05','00:26:05:10'),('20200929105837392471','1293727100','12820.847961425781','00:01:42:00','00:02:17:05','00:19:22:05','00:19:54:00'),('20201008120231877931','1244621900','6718.1842041015625','00:00:37:05','00:00:48:10','00:09:32:10','00:09:43:20'),('20201008120509345731','1244627000','4355.992919921875','00:00:26:00','00:00:44:00','00:04:14:10','00:04:32:10'),('20201008120632322611','1243533500','11181.787048339844','00:00:22:00','00:00:49:05','00:15:32:10','00:15:59:10'),('20201010192428351593','1244627000','22578.365234375','00:00:06:10','00:00:52:10','00:05:47:10','00:06:44:10'),('20201012174650284263','1293727100','6299.2545166015625','00:00:02:00','00:00:10:10','00:13:43:20','00:13:53:10'),('20201013220249062706','1244621900','9753.969055175781','00:00:30:00','00:00:53:05','00:25:00:15','00:25:23:10');
 /*!40000 ALTER TABLE `copy` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -54,16 +88,16 @@ DROP TABLE IF EXISTS `feature`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `feature` (
-    `FeatureID` VARCHAR(45) NOT NULL,
-    `FeatureSize` FLOAT DEFAULT NULL,
-    `FeatureTime` VARCHAR(45) NOT NULL,
-    `FeatureArgs` MEDIUMTEXT NOT NULL,
-    `FeatureURL` VARCHAR(100) DEFAULT NULL,
-    `IsCopy` TINYINT(1) DEFAULT NULL,
-    `FeatureCopyID` VARCHAR(45) DEFAULT NULL,
-    PRIMARY KEY (`FeatureID`),
-    UNIQUE KEY `FeatureID` (`FeatureID`)
-)  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4 COLLATE = UTF8MB4_0900_AI_CI;
+  `FeatureID` varchar(45) NOT NULL,
+  `FeatureSize` float DEFAULT NULL,
+  `FeatureTime` varchar(45) NOT NULL,
+  `FeatureArgs` mediumtext NOT NULL,
+  `FeatureURL` varchar(100) DEFAULT NULL,
+  `IsCopy` tinyint(1) DEFAULT NULL,
+  `FeatureCopyID` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`FeatureID`),
+  UNIQUE KEY `FeatureID` (`FeatureID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -77,6 +111,67 @@ INSERT INTO `feature` VALUES ('1234417600',NULL,'2020-06-08 20:08:58','{\"1\": \
 UNLOCK TABLES;
 
 --
+-- Table structure for table `feedback`
+--
+
+DROP TABLE IF EXISTS `feedback`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `feedback` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `title` varchar(45) DEFAULT NULL,
+  `content` varchar(200) DEFAULT NULL,
+  `smtPerson` varchar(45) DEFAULT NULL,
+  `applied` int DEFAULT '0',
+  `applier` varchar(45) DEFAULT NULL,
+  `applyContent` text,
+  `smtTime` datetime DEFAULT NULL,
+  `applyTime` datetime DEFAULT NULL,
+  `readed` int DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `feedback`
+--
+
+LOCK TABLES `feedback` WRITE;
+/*!40000 ALTER TABLE `feedback` DISABLE KEYS */;
+INSERT INTO `feedback` VALUES (1,'123','asdasasda','admin',1,'admin','三生三世','2020-10-09 15:22:52','2020-10-09 20:06:28',1),(2,'ssss','asasdasdas','admin',1,'admin','123123','2020-10-09 15:23:44','2020-10-09 20:13:27',1),(3,'saasdads','ssss','admin',1,'admin','sssssssssss','2020-10-09 20:58:29','2020-10-09 20:58:39',1),(4,'sss','sss','admin',0,NULL,NULL,'2020-10-15 22:57:05',NULL,0),(5,'s','s','admin',0,NULL,NULL,'2020-10-15 22:57:44',NULL,0),(6,'s','s','admin',0,NULL,NULL,'2020-10-15 22:58:19',NULL,0);
+/*!40000 ALTER TABLE `feedback` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `history`
+--
+
+DROP TABLE IF EXISTS `history`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `history` (
+  `historyid` int NOT NULL AUTO_INCREMENT,
+  `videoID` varchar(45) DEFAULT NULL,
+  `type` varchar(45) DEFAULT NULL,
+  `time` datetime DEFAULT NULL,
+  `description` varchar(45) DEFAULT NULL,
+  `operator` varchar(45) DEFAULT NULL,
+  `state` int DEFAULT '0',
+  PRIMARY KEY (`historyid`)
+) ENGINE=InnoDB AUTO_INCREMENT=68 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `history`
+--
+
+LOCK TABLES `history` WRITE;
+/*!40000 ALTER TABLE `history` DISABLE KEYS */;
+INSERT INTO `history` VALUES (1,'1234417600','1','2020-06-08 16:47:03','上传成功','admin',0),(2,'1234417600','2','2020-06-08 17:15:03','系统开始审核','system',0),(3,'1234417600','3','2020-06-08 17:19:03','检测完成','system',1),(4,'1243533500','1','2020-06-08 16:54:14','上传成功','admin',0),(5,'1243533500','3','2020-06-08 17:00:14','检测完成','system',1),(6,'1243533500','2','2020-06-08 16:57:14','系统开始审核','system',0),(7,'1244621900','1','2020-06-08 16:01:39','上传成功','admin',0),(8,'1244621900','2','2020-06-08 16:06:39','系统开始审核','system',0),(9,'1244621900','3','2020-06-08 16:15:39','检测完成','system',1),(10,'1244627000','1','2020-06-08 16:25:40','上传成功','admin',0),(11,'1244627000','2','2020-06-08 16:29:40','系统开始审核','system',0),(12,'1244627000','3','2020-06-08 16:32:40','检测完成','system',1),(13,'1260706600','1','2020-06-08 16:37:54','上传成功','admin',0),(14,'1260706600','2','2020-06-08 16:53:54','系统开始审核','system',0),(15,'1260706600','3','2020-06-08 16:56:54','检测完成','system',1),(16,'1293727100','1','2020-06-08 16:11:47','上传成功','admin',0),(17,'1293727100','2','2020-06-08 16:25:47','系统开始审核','system',0),(18,'1293727100','3','2020-06-08 16:29:47','检测完成','system',1),(19,'1293730300','1','2020-06-08 16:21:19','上传成功','admin',0),(20,'1293730300','2','2020-06-08 16:40:19','系统开始审核','system',0),(21,'1293730300','3','2020-06-08 16:45:19','检测完成','system',1),(22,'20200608230235294134','1','2020-06-08 23:02:35','上传成功','admin',0),(23,'20200608230235294134','2','2020-06-08 23:12:35','系统开始审核','system',0),(24,'20200608230235294134','3','2020-06-08 23:15:35','检测完成','system',0),(25,'20200919221024373598','1','2020-09-19 22:10:24','上传成功','admin',0),(26,'20200919221024373598','2','2020-09-19 22:16:24','系统开始审核','system',0),(27,'20200919221024373598','3','2020-09-19 22:20:24','检测完成','system',0),(28,'20200927110108906880','1','2020-09-27 11:01:08','上传成功','admin',0),(29,'20200927110108906880','2','2020-09-27 11:25:08','系统开始审核','system',0),(30,'20200927110108906880','3','2020-09-27 11:29:08','检测完成','system',0),(31,'20200929105601100677','1','2020-09-29 10:56:01','上传成功','admin',0),(32,'20200929105601100677','2','2020-09-29 11:00:01','系统开始审核','system',0),(33,'20200929105601100677','3','2020-09-29 11:05:01','检测完成','system',0),(34,'20200929105837392471','1','2020-09-29 10:58:37','上传成功','admin',0),(35,'20200929105837392471','2','2020-09-29 11:06:37','系统开始审核','system',0),(36,'20200929105837392471','3','2020-09-29 11:11:37','检测完成','system',0),(37,'417605300','1','2020-06-08 15:51:12','上传成功','admin',0),(38,'417605300','2','2020-06-08 15:55:12','系统开始审核','system',0),(39,'417605300','3','2020-06-08 16:01:12','检测完成','system',1),(40,'20200919221024373598','4','2020-10-06 21:02:16','申诉申请成功','admin',1),(41,'20200919221024373598','5','2020-10-07 10:47:25','申诉已完成','admin',0),(42,'20201008120231877931','1','2020-10-08 12:02:31','上传成功','test1',1),(43,'20201008120231877931','2','2020-10-08 12:02:42','系统开始审核','SYSTEM',1),(44,'20201008120231877931','3','2020-10-08 12:03:03','检测完成','SYSTEM',0),(45,'20201008120509345731','1','2020-10-08 12:05:09','上传成功','test1',1),(46,'20201008120509345731','2','2020-10-08 12:05:20','系统开始审核','SYSTEM',1),(47,'20201008120509345731','3','2020-10-08 12:05:38','检测完成','SYSTEM',0),(48,'20201008120632322611','1','2020-10-08 12:06:32','上传成功','test1',1),(49,'20201008120632322611','2','2020-10-08 12:06:43','系统开始审核','SYSTEM',1),(50,'20201008120632322611','3','2020-10-08 12:07:01','检测完成','SYSTEM',0),(51,'20201008120231877931','4','2020-10-08 16:29:14','申诉申请成功','test1',1),(52,'20201008120509345731','4','2020-10-08 16:29:25','申诉申请成功','test1',1),(53,'20201008120632322611','4','2020-10-08 21:53:01','申诉申请成功','test1',1),(54,'20201008120231877931','5','2020-10-08 22:48:03','申诉已完成','admin',0),(55,'20201008120509345731','5','2020-10-08 22:48:17','申诉已完成','admin',0),(56,'20201008120632322611','5','2020-10-08 22:48:27','申诉已完成','admin',0),(57,'20201010192428351593','1','2020-10-10 19:24:28','上传成功','admin',1),(58,'20201010192428351593','2','2020-10-10 19:24:40','系统开始审核','SYSTEM',1),(59,'20201010192428351593','3','2020-10-10 19:25:00','检测完成','SYSTEM',0),(60,'20201010192428351593','4','2020-10-10 19:26:29','申诉申请成功','admin',1),(61,'20201010192428351593','5','2020-10-10 19:27:36','申诉已完成','admin',0),(62,'20201012174650284263','1','2020-10-12 17:46:50','上传成功','admin',1),(63,'20201012174650284263','2','2020-10-12 17:47:00','系统开始审核','SYSTEM',1),(64,'20201012174650284263','3','2020-10-12 17:47:24','检测完成','SYSTEM',0),(65,'20201013220249062706','1','2020-10-13 22:02:49','上传成功','admin',1),(66,'20201013220249062706','2','2020-10-13 22:03:00','系统开始审核','SYSTEM',1),(67,'20201013220249062706','3','2020-10-13 22:03:17','检测完成','SYSTEM',0);
+/*!40000 ALTER TABLE `history` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `log`
 --
 
@@ -84,19 +179,18 @@ DROP TABLE IF EXISTS `log`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `log` (
-    `LogID` VARCHAR(45) NOT NULL,
-    `LogDescription` TEXT,
-    `LogType` VARCHAR(30) NOT NULL,
-    `LogURL` VARCHAR(50) NOT NULL,
-    `LogUserName` VARCHAR(45) NOT NULL,
-    `LogTime` DATETIME NOT NULL,
-    `LogIP` VARCHAR(50) NOT NULL,
-    PRIMARY KEY (`LogID`),
-    UNIQUE KEY `LogID` (`LogID`),
-    KEY `LogUserName` (`LogUserName`),
-    CONSTRAINT `log_ibfk_1` FOREIGN KEY (`LogUserName`)
-        REFERENCES `user` (`UserName`)
-)  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4 COLLATE = UTF8MB4_0900_AI_CI;
+  `LogID` varchar(45) NOT NULL,
+  `LogDescription` text,
+  `LogType` varchar(30) NOT NULL,
+  `LogURL` varchar(50) NOT NULL,
+  `LogUserName` varchar(45) NOT NULL,
+  `LogTime` datetime NOT NULL,
+  `LogIP` varchar(50) NOT NULL,
+  PRIMARY KEY (`LogID`),
+  UNIQUE KEY `LogID` (`LogID`),
+  KEY `LogUserName` (`LogUserName`),
+  CONSTRAINT `log_ibfk_1` FOREIGN KEY (`LogUserName`) REFERENCES `user` (`UserName`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -107,6 +201,7 @@ LOCK TABLES `log` WRITE;
 /*!40000 ALTER TABLE `log` DISABLE KEYS */;
 /*!40000 ALTER TABLE `log` ENABLE KEYS */;
 UNLOCK TABLES;
+
 --
 -- Table structure for table `message`
 --
@@ -115,17 +210,16 @@ DROP TABLE IF EXISTS `message`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `message` (
-    `id` INT NOT NULL AUTO_INCREMENT,
-    `mFrom` VARCHAR(45) DEFAULT NULL,
-    `mTo` VARCHAR(45) DEFAULT NULL,
-    `content` LONGTEXT,
-    `sendTime` DATETIME DEFAULT NULL,
-    `readed` INT DEFAULT NULL,
-    `subject` VARCHAR(45) DEFAULT NULL,
-    PRIMARY KEY (`id`)
-)  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4 COLLATE = UTF8MB4_0900_AI_CI;
+  `id` int NOT NULL AUTO_INCREMENT,
+  `mFrom` varchar(45) DEFAULT NULL,
+  `mTo` varchar(45) DEFAULT NULL,
+  `content` longtext,
+  `sendTime` datetime DEFAULT NULL,
+  `readed` int DEFAULT NULL,
+  `subject` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
 
 --
 -- Dumping data for table `message`
@@ -133,6 +227,7 @@ CREATE TABLE `message` (
 
 LOCK TABLES `message` WRITE;
 /*!40000 ALTER TABLE `message` DISABLE KEYS */;
+INSERT INTO `message` VALUES (27,'admin','admin','<p>尊敬的 <strong><ins>admin</ins></strong> 您好：</p>\n<p></p>\n<p></p>\n<p style=\"text-align:center;\">您上传的视频 <span style=\"color: rgb(84,172,210);\"><code><strong>罗马假日.mp4</strong></code></span> 正在检测中</p>\n<p style=\"text-align:center;\">详情前往 <a href=\"http://www.baidu.com\" target=\"_blank\">此处</a> 查看详情</p>\n<p></p>\n<p style=\"text-align:right;\"><strong><em>VideoDetect</em></strong></p>\n<p style=\"text-align:right;\">保护您的创作权益</p>\n<p style=\"text-align:right;\">2020年10月8日 11:20:02&nbsp;</p>\n','2020-10-08 11:32:57',1,'通知'),(28,'SYSTEM','admin','<p>尊敬的 <strong><ins>admin</ins></strong> 您好：</p>\n<br></br>\n<br></br>\n<p style=\"text-align:center;\">您上传的视频 <span style=\"color: rgb(84,172,210);\"><code><strong>417605300.mp4</strong></code></span> 正在检测中</p>\n<p style=\"text-align:center;\">详情前往 <a href=\"http://127.0.0.1/#/home/content/417605300\" target=\"_blank\">此处</a> 查看</p>\n<br></br>\n<p style=\"text-align:right;\"><strong><em>VideoDetect</em></strong></p>\n<p style=\"text-align:right;\">保护您的创作权益</p>\n<p style=\"text-align:right;\">2020-10-08 11:55:50&nbsp;</p>\n','2020-10-08 11:55:50',1,'通知-检测开始'),(29,'SYSTEM','test1','<p>尊敬的 <strong><ins>test1</ins></strong> 您好：</p>\n<br></br>\n<br></br>\n<p style=\"text-align:center;\">您上传的视频 <span style=\"color: rgb(84,172,210);\"><code><strong>测试视频6-1243533500.mp4</strong></code></span> 正在检测中</p>\n<p style=\"text-align:center;\">详情前往 <a href=\"http://127.0.0.1/#/home/content/20201008120231877931\" target=\"_blank\">此处</a> 查看</p>\n<br></br>\n<p style=\"text-align:right;\"><strong><em>VideoDetect</em></strong></p>\n<p style=\"text-align:right;\">保护您的创作权益</p>\n<p style=\"text-align:right;\">2020-10-08 12:02:42&nbsp;</p>\n','2020-10-08 12:02:42',1,'通知-检测开始'),(30,'SYSTEM','test1','<p>尊敬的 <strong><ins>test1</ins></strong> 您好：</p>\n<br></br>\n<br></br>\n<p style=\"text-align:center;\">您上传的视频 <span style=\"color: rgb(84,172,210);\"><code><strong>测试视频6-1243533500.mp4</strong></code></span> 检测已完成</p>\n<p style=\"text-align:center;\">详情前往 <a href=\"http://127.0.0.1/#/home/content/20201008120231877931\" target=\"_blank\">此处</a> 查看</p>\n<br></br>\n<p style=\"text-align:right;\"><strong><em>VideoDetect</em></strong></p>\n<p style=\"text-align:right;\">保护您的创作权益</p>\n<p style=\"text-align:right;\">2020-10-08 12:03:03&nbsp;</p>\n','2020-10-08 12:03:03',1,'通知-检测结束'),(31,'SYSTEM','test1','<p>尊敬的 <strong><ins>test1</ins></strong> 您好：</p>\n<br></br>\n<br></br>\n<p style=\"text-align:center;\">您上传的视频 <span style=\"color: rgb(84,172,210);\"><code><strong>测试视频17-1243533500.mp4</strong></code></span> 正在检测中</p>\n<p style=\"text-align:center;\">详情前往 <a href=\"http://127.0.0.1/#/home/content/20201008120509345731\" target=\"_blank\">此处</a> 查看</p>\n<br></br>\n<p style=\"text-align:right;\"><strong><em>VideoDetect</em></strong></p>\n<p style=\"text-align:right;\">保护您的创作权益</p>\n<p style=\"text-align:right;\">2020-10-08 12:05:20&nbsp;</p>\n','2020-10-08 12:05:20',1,'通知-检测开始'),(32,'SYSTEM','test1','<p>尊敬的 <strong><ins>test1</ins></strong> 您好：</p>\n<br></br>\n<br></br>\n<p style=\"text-align:center;\">您上传的视频 <span style=\"color: rgb(84,172,210);\"><code><strong>测试视频17-1243533500.mp4</strong></code></span> 检测已完成</p>\n<p style=\"text-align:center;\">详情前往 <a href=\"http://127.0.0.1/#/home/content/20201008120509345731\" target=\"_blank\">此处</a> 查看</p>\n<br></br>\n<p style=\"text-align:right;\"><strong><em>VideoDetect</em></strong></p>\n<p style=\"text-align:right;\">保护您的创作权益</p>\n<p style=\"text-align:right;\">2020-10-08 12:05:38&nbsp;</p>\n','2020-10-08 12:05:38',1,'通知-检测结束'),(33,'SYSTEM','test1','<p>尊敬的 <strong><ins>test1</ins></strong> 您好：</p>\n<br></br>\n<br></br>\n<p style=\"text-align:center;\">您上传的视频 <span style=\"color: rgb(84,172,210);\"><code><strong>测试视频2-1243533500.mp4</strong></code></span> 正在检测中</p>\n<p style=\"text-align:center;\">详情前往 <a href=\"http://127.0.0.1/#/home/content/20201008120632322611\" target=\"_blank\">此处</a> 查看</p>\n<br></br>\n<p style=\"text-align:right;\"><strong><em>VideoDetect</em></strong></p>\n<p style=\"text-align:right;\">保护您的创作权益</p>\n<p style=\"text-align:right;\">2020-10-08 12:06:43&nbsp;</p>\n','2020-10-08 12:06:43',1,'通知-检测开始'),(34,'SYSTEM','test1','<p>尊敬的 <strong><ins>test1</ins></strong> 您好：</p>\n<br></br>\n<br></br>\n<p style=\"text-align:center;\">您上传的视频 <span style=\"color: rgb(84,172,210);\"><code><strong>测试视频2-1243533500.mp4</strong></code></span> 检测已完成</p>\n<p style=\"text-align:center;\">详情前往 <a href=\"http://127.0.0.1/#/home/content/20201008120632322611\" target=\"_blank\">此处</a> 查看</p>\n<br></br>\n<p style=\"text-align:right;\"><strong><em>VideoDetect</em></strong></p>\n<p style=\"text-align:right;\">保护您的创作权益</p>\n<p style=\"text-align:right;\">2020-10-08 12:07:01&nbsp;</p>\n','2020-10-08 12:07:01',1,'通知-检测结束'),(35,'SYSTEM','admin','<p>尊敬的\n        <u>admin</u>您好：</p>\n    <p>\n        <br>\n    </p>\n    <p class=\"ql-indent-1\">感谢您给我们的反馈，我们对您的反馈做出了如下回复：</p>\n    <p class=\"ql-indent-1\">\n        <br>\n    </p>\n    <p class=\"ql-indent-1\">反馈人：admin</p>\n    <p class=\"ql-indent-1\">反馈时间：2020-10-09 20:58:29</p>\n    <p class=\"ql-indent-1\">问题概要：saasdads</p>\n    <p class=\"ql-indent-1\">反馈内容：ssss</p>\n    <p class=\"ql-indent-1\">---------------------------</p>\n    <p class=\"ql-indent-1\">处理人：admin</p>\n    <p class=\"ql-indent-1\">处理时间：2020-10-09 20:58:39</p>\n    <p class=\"ql-indent-1\">回复：sssssssssss</p>\n    <p class=\"ql-indent-1\">\n        <br>\n    </p>\n    <p class=\"ql-indent-1\">\n        <br>\n    </p>\n    <p class=\"ql-indent-1 ql-align-right\">\n        <strong>\n            <em>\n                <u>VideoDetect</u>\n            </em>\n        </strong>\n    </p>\n    <p class=\"ql-indent-1 ql-align-right\">保护您的视频版权</p>\n    <p class=\"ql-indent-1 ql-align-right\">2020-10-09 20:58:39</p>','2020-10-09 20:58:39',1,'回复-反馈-saasdads'),(36,'SYSTEM','admin','<p>尊敬的 <strong><ins>admin</ins></strong> 您好：</p>\n<br></br>\n<br></br>\n<p style=\"text-align:center;\">您上传的视频 <span style=\"color: rgb(84,172,210);\"><code><strong>测试视频1-1244627000.mp4</strong></code></span> 正在检测中</p>\n<p style=\"text-align:center;\">详情前往 <a href=\"http://127.0.0.1:3000/#/home/content/20201010192428351593\" target=\"_blank\">此处</a> 查看</p>\n<br></br>\n<p style=\"text-align:right;\"><strong><em>VideoDetect</em></strong></p>\n<p style=\"text-align:right;\">保护您的创作权益</p>\n<p style=\"text-align:right;\">2020-10-10 19:24:40&nbsp;</p>\n','2020-10-10 19:24:40',1,'通知-检测开始-测试视频1-1244627000.mp4'),(37,'SYSTEM','admin','<p>尊敬的 <strong><ins>admin</ins></strong> 您好：</p>\n<br></br>\n<br></br>\n<p style=\"text-align:center;\">您上传的视频 <span style=\"color: rgb(84,172,210);\"><code><strong>测试视频1-1244627000.mp4</strong></code></span> 检测已完成</p>\n<p style=\"text-align:center;\">详情前往 <a href=\"http://127.0.0.1:3000/#/home/content/20201010192428351593\" target=\"_blank\">此处</a> 查看</p>\n<br></br>\n<p style=\"text-align:right;\"><strong><em>VideoDetect</em></strong></p>\n<p style=\"text-align:right;\">保护您的创作权益</p>\n<p style=\"text-align:right;\">2020-10-10 19:25:00&nbsp;</p>\n','2020-10-10 19:25:00',1,'通知-检测结束-测试视频1-1244627000.mp4'),(38,'SYSTEM','admin','<p>尊敬的 <strong><ins>admin</ins></strong> 您好：</p>\n<br></br>\n<br></br>\n<p style=\"text-align:center;\">您上传的视频 <span style=\"color: rgb(84,172,210);\"><code><strong>测试视频5-1244627000.mp4</strong></code></span> 正在检测中</p>\n<p style=\"text-align:center;\">详情前往 <a href=\"http://127.0.0.1:3000/#/home/content/20201012174650284263\" target=\"_blank\">此处</a> 查看</p>\n<br></br>\n<p style=\"text-align:right;\"><strong><em>VideoDetect</em></strong></p>\n<p style=\"text-align:right;\">保护您的创作权益</p>\n<p style=\"text-align:right;\">2020-10-12 17:47:00&nbsp;</p>\n','2020-10-12 17:47:00',1,'通知-检测开始-测试视频5-1244627000.mp4'),(39,'SYSTEM','admin','<p>尊敬的 <strong><ins>admin</ins></strong> 您好：</p>\n<br></br>\n<br></br>\n<p style=\"text-align:center;\">您上传的视频 <span style=\"color: rgb(84,172,210);\"><code><strong>测试视频5-1244627000.mp4</strong></code></span> 检测已完成</p>\n<p style=\"text-align:center;\">详情前往 <a href=\"http://127.0.0.1:3000/#/home/content/20201012174650284263\" target=\"_blank\">此处</a> 查看</p>\n<br></br>\n<p style=\"text-align:right;\"><strong><em>VideoDetect</em></strong></p>\n<p style=\"text-align:right;\">保护您的创作权益</p>\n<p style=\"text-align:right;\">2020-10-12 17:47:24&nbsp;</p>\n','2020-10-12 17:47:24',1,'通知-检测结束-测试视频5-1244627000.mp4'),(40,'SYSTEM','admin','<p>尊敬的 <strong><ins>admin</ins></strong> 您好：</p>\n<br></br>\n<br></br>\n<p style=\"text-align:center;\">您上传的视频 <span style=\"color: rgb(84,172,210);\"><code><strong>测试视频6-1244621900.mp4</strong></code></span> 正在检测中</p>\n<p style=\"text-align:center;\">详情前往 <a href=\"http://127.0.0.1:3000/#/home/content/20201013220249062706\" target=\"_blank\">此处</a> 查看</p>\n<br></br>\n<p style=\"text-align:right;\"><strong><em>VideoDetect</em></strong></p>\n<p style=\"text-align:right;\">保护您的创作权益</p>\n<p style=\"text-align:right;\">2020-10-13 22:03:00&nbsp;</p>\n','2020-10-13 22:03:00',0,'通知-检测开始-测试视频6-1244621900.mp4'),(41,'SYSTEM','admin','<p>尊敬的 <strong><ins>admin</ins></strong> 您好：</p>\n<br></br>\n<br></br>\n<p style=\"text-align:center;\">您上传的视频 <span style=\"color: rgb(84,172,210);\"><code><strong>测试视频6-1244621900.mp4</strong></code></span> 检测已完成</p>\n<p style=\"text-align:center;\">详情前往 <a href=\"http://127.0.0.1:3000/#/home/content/20201013220249062706\" target=\"_blank\">此处</a> 查看</p>\n<br></br>\n<p style=\"text-align:right;\"><strong><em>VideoDetect</em></strong></p>\n<p style=\"text-align:right;\">保护您的创作权益</p>\n<p style=\"text-align:right;\">2020-10-13 22:03:17&nbsp;</p>\n','2020-10-13 22:03:17',0,'通知-检测结束-测试视频6-1244621900.mp4');
 /*!40000 ALTER TABLE `message` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -144,13 +239,13 @@ DROP TABLE IF EXISTS `notice`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `notice` (
-    `id` INT NOT NULL AUTO_INCREMENT,
-    `content` LONGTEXT,
-    `time` DATETIME DEFAULT NULL,
-    `publisher` VARCHAR(45) DEFAULT NULL,
-    `title` VARCHAR(45) DEFAULT NULL,
-    PRIMARY KEY (`id`)
-)  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4 COLLATE = UTF8MB4_0900_AI_CI;
+  `id` int NOT NULL AUTO_INCREMENT,
+  `content` longtext,
+  `time` datetime DEFAULT NULL,
+  `publisher` varchar(45) DEFAULT NULL,
+  `title` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -159,9 +254,9 @@ CREATE TABLE `notice` (
 
 LOCK TABLES `notice` WRITE;
 /*!40000 ALTER TABLE `notice` DISABLE KEYS */;
+INSERT INTO `notice` VALUES (1,'<p><span style=\"color: rgb(73,73,73);font-size: 11pt;\"><strong>1.版权判断模块</strong></span></p>\n<p><span style=\"color: rgb(73,73,73);font-size: 11pt;\"><strong>整体策略：</strong></span></p>\n<p><span style=\"color: rgb(73,73,73);font-size: 11pt;\">对视频先检测重复性，对视频进行</span><span style=\"color: rgb(0,0,0);background-color: rgb(163,224,67);font-size: 11pt;\">分类</span><span style=\"color: rgb(73,73,73);font-size: 11pt;\">，根据重复度和所属分类给出结果</span></p>\n<p><span style=\"color: rgb(73,73,73);font-size: 11pt;\">首先，会进行重复性检测，此时检索范围是数据库中的所有视频，在此次检索之后，会得到一个重复度的检测结果，此时进行第一层筛选：</span></p>\n<p style=\"margin-left:106px;\"><span style=\"color: rgb(255,0,0);font-size: 11pt;\">系统直接拒绝重复度高达80%的视频</span></p>\n<p style=\"margin-left:106px;\"><span style=\"color: rgb(255,0,0);font-size: 11pt;\">    (基本上可以认定为是完全搬运，直接照搬)</span></p>\n<p style=\"margin-left:26px;\"><span style=\"color: rgb(73,73,73);font-size: 11pt;\">然后进行视频分类(见上面)</span></p>\n<p style=\"margin-left:26px;\"><span style=\"color: rgb(73,73,73);font-size: 11pt;\">(根据平时使用短视频平台的经验，他们的推荐系统已经一定程度上实现了分类)</span></p>\n<p style=\"margin-left:26px;\"><span style=\"color: rgb(73,73,73);font-size: 11pt;\">根据视频分类的不同，实行不同的权重比例进行比较。</span></p>\n<p style=\"margin-left:26px;\"><span style=\"color: rgb(73,73,73);background-color: rgb(204,224,241);font-size: 11pt;\">对于新闻类视频</span></p>\n<p style=\"margin-left:26px;\"><span style=\"color: rgb(73,73,73);font-size: 11pt;\">同时采用</span><span style=\"color: rgb(73,73,73);background-color: rgb(152,192,145);font-size: 11pt;\">用户标识</span><span style=\"color: rgb(73,73,73);font-size: 11pt;\">的方法。比如平台都会给新闻媒体类一个官方认证，利用这种官方认证直接通过认证。</span></p>\n<p style=\"margin-left:26px;\"><span style=\"color: rgb(73,73,73);background-color: rgb(204,224,241);font-size: 11pt;\">对于影视解说，推荐类</span><span style=\"color: rgb(73,73,73);font-size: 11pt;\">，和个人创作者原创剧情类的短剧，是需要重点监测的对象，监测时可以采用以下策略：(</span><span style=\"color: rgb(255,0,0);font-size: 11pt;\">以下的策略都与版权管理模块的库管理有关</span><span style=\"color: rgb(73,73,73);font-size: 11pt;\">)</span></p>\n<p style=\"margin-left:26px;\"><span style=\"color: rgb(73,73,73);background-color: rgb(255,217,0);font-size: 11pt;\">1.</span><span style=\"color: rgb(73,73,73);font-size: 11pt;\">针对于版权库中明确要求不允许任何形式的复制，比如版权方平台要求付费观看的视频，所允许的重复率极低。（版权要求等级最高）</span></p>\n<p style=\"margin-left:26px;\"><span style=\"color: rgb(73,73,73);background-color: rgb(255,217,0);font-size: 11pt;\">2.</span><span style=\"color: rgb(73,73,73);font-size: 11pt;\">正常版权的视频。针对于影评类的视频，可以采用判断</span><span style=\"color: rgb(255,0,0);font-size: 11pt;\">是否连续重复</span><span style=\"color: rgb(73,73,73);font-size: 11pt;\">的方式检测</span></p>\n<p style=\"margin-left:26px;\"><span style=\"color: rgb(73,73,73);font-size: 11pt;\">考虑到影评，推荐类的视频，他们一定是需要在5分钟内，讲完120分钟的电影。</span></p>\n<p style=\"margin-left:26px;\"><span style=\"color: rgb(73,73,73);font-size: 11pt;\">如果是一部影片被分成好几段播放，那就是明显侵权，由于连续重复，可以被检测出来</span></p>\n<p style=\"margin-left:26px;\"><span style=\"color: rgb(73,73,73);background-color: rgb(255,217,0);font-size: 11pt;\">3</span><span style=\"color: rgb(73,73,73);font-size: 11pt;\">.可以搬运的视频，我们不得不承认，有一些视频他就是开放版权的。那这一部分就会允许比较高的重复度</span></p>\n<p>&nbsp;</p>\n<p><span style=\"color: rgb(73,73,73);font-size: 11pt;\">因为</span><span style=\"color: rgb(73,73,73);background-color: rgb(204,224,241);font-size: 11pt;\">其他类别的视频</span><span style=\"color: rgb(73,73,73);font-size: 11pt;\">甚至允许模仿，翻拍，只要上传者不是完完全全的照搬，检测模块都应该能够良好的包容。所说的版权那就是，只要别人不把你的视频复制下来，什么都不修改，就重新上传，那都不是侵权。</span>&nbsp;</p>\n','2020-10-14 10:08:00','admin','版权判断策略'),(4,'<p><span style=\"color: rgb(73,73,73);font-size: 11pt;\"><strong>一、系统需求分析</strong></span></p>\n<p><span style=\"color: rgb(73,73,73);font-size: 11pt;\"><strong>1.产品的目标：</strong></span></p>\n<p style=\"margin-left:26px;\"><span style=\"color: rgb(73,73,73);font-size: 11pt;\">1、作为一个版权检测的引擎，或者API</span></p>\n<p style=\"margin-left:26px;\"><span style=\"color: rgb(73,73,73);font-size: 11pt;\">2、创建及管理版权库(过程中以对版权的检测作为核心技术)</span></p>\n<p style=\"margin-left:26px;\"><span style=\"color: rgb(73,73,73);font-size: 11pt;\">3、接管视频上传的全流程</span></p>\n<p><span style=\"color: rgb(73,73,73);font-size: 11pt;\"><strong>2.功能性需求分析</strong></span></p>\n<p><span style=\"color: rgb(73,73,73);font-size: 11pt;\">系统大致分为以下模块：</span></p>\n<p><span style=\"color: rgb(73,73,73);font-size: 11pt;\">1、版权检测模块（核心模块）</span></p>\n<p style=\"margin-left:26px;\"><span style=\"color: rgb(73,73,73);font-size: 11pt;\">用户上传的时候申请创建检测任务，调用该模块</span></p>\n<p><span style=\"color: rgb(73,73,73);font-size: 11pt;\">2、版权库管理模块</span></p>\n<p style=\"margin-left:26px;\"><span style=\"color: rgb(73,73,73);font-size: 11pt;\">负责版权库的更新，原创视频入库，侵权过期视频出库</span></p>\n<p><span style=\"color: rgb(73,73,73);font-size: 11pt;\">3、应急处理模块</span></p>\n<p style=\"margin-left:26px;\"><span style=\"color: rgb(73,73,73);font-size: 11pt;\">确保整个系统的正常运行，协调各个模块直接的通信和协调，不应一个并行任务的故障导致整个系统的崩溃。</span></p>\n<p><span style=\"color: rgb(73,73,73);font-size: 11pt;\">4、申诉处理模板</span></p>\n<p style=\"margin-left:46px;\"><span style=\"color: rgb(73,73,73);font-size: 11pt;\">系统将驳回侵权视频，对于可能误判的视频，提供申诉服务，将数据结果提供给人工分析。</span></p>\n<p><span style=\"color: rgb(73,73,73);font-size: 11pt;\">5、视频状态更新模块</span></p>\n<p style=\"margin-left:26px;\"><span style=\"color: rgb(73,73,73);font-size: 11pt;\">比如用户对上传的视频进行过更新，或者之前视频检测结果为侵权的视频重新上载</span></p>\n<p><span style=\"color: rgb(73,73,73);font-size: 11pt;\">6、可视数据统计模块（选做）</span></p>\n<p style=\"margin-left:46px;\"><span style=\"color: rgb(73,73,73);font-size: 11pt;\">对于亿级数据，实时记录，供日后机器学习等方向上的需求，同时给前端一个可视化接口</span></p>\n<p><span style=\"color: rgb(73,73,73);font-size: 11pt;\"><strong>3.非功能性系统分析</strong></span></p>\n<p style=\"margin-left:26px;\"><span style=\"color: rgb(73,73,73);font-size: 11pt;\"><strong>技术层面考虑的问题</strong></span></p>\n<p style=\"margin-left:26px;\"><span style=\"color: rgb(73,73,73);font-size: 11pt;\">在设计的时候需要考虑的问题：</span></p>\n<p style=\"margin-left:46px;\"><span style=\"color: rgb(73,73,73);font-size: 11pt;\">1、系统的运行速度</span></p>\n<p style=\"margin-left:46px;\"><span style=\"color: rgb(73,73,73);font-size: 11pt;\">2、系统的稳定性</span></p>\n<p style=\"margin-left:46px;\"><span style=\"color: rgb(73,73,73);font-size: 11pt;\">3、系统的安全性</span></p>\n<p style=\"margin-left:46px;\"><span style=\"color: rgb(73,73,73);font-size: 11pt;\">4、系统的可移植性</span></p>\n<p style=\"margin-left:46px;\"><span style=\"color: rgb(73,73,73);font-size: 11pt;\">5、系统的运维成本</span>&nbsp;</p>\n','2020-10-13 10:59:00','admin','检测系统需求分析'),(5,'<p>短视频版权检测系统将于明日 (2020年10月13日 00:00:00) 正式启用</p>\n','2020-10-12 11:50:26','admin','短视频版权检测系统正式启用'),(6,'<p>针对目前用户对于检测结果有异议的情形，现系统增加申诉功能</p>\n<p></p>\n<p>对于有异议的视频可以选择申诉，申诉将以人工审核的方式二次检测，检测周期大约为2-4个工作日</p>\n','2020-10-16 22:35:38','admin','申诉功能上线'),(7,'<p><span style=\"color: rgb(73,73,73);font-size: 11pt;\"><strong>2.版权库管理模块</strong></span></p>\n<p><span style=\"color: rgb(73,73,73);font-size: 11pt;\">    对版权视频分类：</span></p>\n<p><span style=\"color: rgb(73,73,73);font-size: 11pt;\">1。影视版权（划分3个等级，非常严格，正常，开放）</span></p>\n<p><span style=\"color: rgb(73,73,73);font-size: 11pt;\">2。所有用户上传视频，包括翻拍，模仿视频</span></p>\n<p><span style=\"color: rgb(73,73,73);font-size: 11pt;\">      主要用途是防止有用户将别人的视频复制一份，加个水印之后重新上传</span></p>\n<p><span style=\"color: rgb(73,73,73);font-size: 11pt;\">3。原创剧集。</span></p>\n<p>&nbsp;</p>\n<p><span style=\"color: rgb(73,73,73);font-size: 11pt;\">通过视频版权判断的视频都会入库</span></p>\n<p><span style=\"color: rgb(73,73,73);font-size: 11pt;\">主要涉及到的就是视频版权注册</span>&nbsp;</p>\n','2020-10-15 22:37:30','admin','版权库管理模块');
 /*!40000 ALTER TABLE `notice` ENABLE KEYS */;
 UNLOCK TABLES;
-
 
 --
 -- Table structure for table `statistic`
@@ -171,16 +266,16 @@ DROP TABLE IF EXISTS `statistic`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `statistic` (
-    `StatisticID` VARCHAR(45) NOT NULL,
-    `VideoCount` INT NOT NULL,
-    `FeathureCount` INT NOT NULL,
-    `VideoSize` FLOAT NOT NULL,
-    `FeatureSize` FLOAT NOT NULL,
-    `VideoToday` INT NOT NULL,
-    `VideoLabelCount` INT NOT NULL,
-    PRIMARY KEY (`StatisticID`),
-    UNIQUE KEY `StatisticID` (`StatisticID`)
-)  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4 COLLATE = UTF8MB4_0900_AI_CI;
+  `StatisticID` varchar(45) NOT NULL,
+  `VideoCount` int NOT NULL,
+  `FeathureCount` int NOT NULL,
+  `VideoSize` float NOT NULL,
+  `FeatureSize` float NOT NULL,
+  `VideoToday` int NOT NULL,
+  `VideoLabelCount` int NOT NULL,
+  PRIMARY KEY (`StatisticID`),
+  UNIQUE KEY `StatisticID` (`StatisticID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -200,20 +295,22 @@ DROP TABLE IF EXISTS `user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `user` (
-    `UserName` VARCHAR(45) NOT NULL,
-    `UserPassword` VARCHAR(45) NOT NULL,
-    `UserEmail` VARCHAR(45) DEFAULT NULL,
-    `age` INT DEFAULT NULL,
-    `sex` CHAR(1) DEFAULT NULL,
-    `UserLoginIP` VARCHAR(45) DEFAULT NULL,
-    `admined` INT NOT NULL DEFAULT '0',
-    `nickname` VARCHAR(45) DEFAULT NULL,
-    `birth` DATETIME DEFAULT NULL,
-    `phone` VARCHAR(45) DEFAULT NULL,
-    `sign` VARCHAR(45) DEFAULT NULL,
-    PRIMARY KEY (`UserName`),
-    UNIQUE KEY `UserName` (`UserName`)
-)  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4 COLLATE = UTF8MB4_0900_AI_CI;
+  `UserName` varchar(45) NOT NULL,
+  `UserPassword` varchar(45) NOT NULL,
+  `UserEmail` varchar(45) DEFAULT NULL,
+  `age` int DEFAULT NULL,
+  `sex` char(1) DEFAULT NULL,
+  `UserLoginIP` varchar(45) DEFAULT NULL,
+  `admined` int NOT NULL DEFAULT '0',
+  `nickname` varchar(45) DEFAULT NULL,
+  `birth` datetime DEFAULT NULL,
+  `phone` varchar(45) DEFAULT NULL,
+  `sign` varchar(45) DEFAULT NULL,
+  `avatar` varchar(45) DEFAULT 'default',
+  `registerTime` datetime DEFAULT NULL,
+  PRIMARY KEY (`UserName`),
+  UNIQUE KEY `UserName` (`UserName`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -222,7 +319,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES ('admin','21232f297a57a5a743894a0e4a801fc3','456@126.com',18,'女','496',1,'管理员','2000-01-01 00:00:00','13000000000','奥利给'),('r','827ccb0eea8a706c4c34a16891f84e7b','126@qq.com',19,'男','123',0,'青鸟','2020-01-01 00:00:00','13000000000','奥利给'),('test1','5a105e8b9d40e1329780d62ea2265d8a','123@126.com',15,'男','123',0,'芜湖','2020-01-01 00:00:00','13000000000','奥利给'),('test2','ad0234829205b9033196ba818f7a872b','456@126.com',18,'女','456',0,'测试员2','2020-01-01 00:00:00','13000000000','奥利给'),('test3','8ad8757baa8564dc136c1e07507f4a98','123@126.com',15,'男','688',0,'测试员3','2020-01-01 00:00:00','13000000000','奥利给'),('test4','86985e105f79b95d6bc918fb45ec7727','456@126.com',18,'女','754',0,'测试员4','2020-01-01 00:00:00','13000000000','奥利给');
+INSERT INTO `user` VALUES ('admin','21232f297a57a5a743894a0e4a801fc3','kscbxxLiuXP@126.com',18,'男','496',1,'半透明的墙','2020-09-20 00:00:00','13809064816','111','admin','2020-06-06 00:00:00'),('liuxp','202cb962ac59075b964b07152d234b70','kscbxxLiuXP@126.com',20,'男',NULL,1,'刘鑫鹏','2020-09-20 00:00:00','13809064816','半透明的强','default','2020-09-20 23:26:21'),('r','827ccb0eea8a706c4c34a16891f84e7b','126@qq.com',19,'男','123',0,'青鸟','2020-01-01 00:00:00','13000000000','奥利给','default','2020-06-06 00:00:00'),('test1','5a105e8b9d40e1329780d62ea2265d8a','123@126.com',15,'男','123',0,'芜湖','2020-01-01 00:00:00','13000000000','奥利给','default','2020-06-06 00:00:00'),('test2','ad0234829205b9033196ba818f7a872b','456@126.com',18,'女','456',0,'测试员2','2020-01-01 00:00:00','13000000000','奥利给','default','2020-06-06 00:00:00'),('test3','8ad8757baa8564dc136c1e07507f4a98','123@126.com',15,'男','688',0,'测试员3','2020-01-01 00:00:00','13000000000','奥利给','default','2020-06-06 00:00:00'),('test4','86985e105f79b95d6bc918fb45ec7727','456@126.com',18,'女','754',0,'测试员4','2020-01-01 00:00:00','13000000000','奥利给','default','2020-06-06 00:00:00');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -234,26 +331,26 @@ DROP TABLE IF EXISTS `video`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `video` (
-    `VideoID` VARCHAR(45) NOT NULL,
-    `VideoName` TEXT NOT NULL,
-    `VideoType` VARCHAR(45) DEFAULT NULL,
-    `VideoSize` BIGINT DEFAULT NULL,
-    `VideoLable` VARCHAR(45) DEFAULT NULL,
-    `VideoURL` VARCHAR(100) DEFAULT NULL,
-    `VideoMd5` VARCHAR(45) DEFAULT NULL,
-    `VideoStatus` VARCHAR(45) DEFAULT NULL,
-    `VideoUploaderName` VARCHAR(45) NOT NULL,
-    `VideoUploadTime` DATETIME NOT NULL,
-    `VideoUploadIP` VARCHAR(45) DEFAULT NULL,
-    `HasFeature` TINYINT(1) DEFAULT NULL,
-    `FPS` VARCHAR(45) DEFAULT NULL,
-    `timeLength` VARCHAR(45) DEFAULT NULL,
-    PRIMARY KEY (`VideoID`),
-    UNIQUE KEY `VideoID` (`VideoID`),
-    KEY `VideoUploaderName` (`VideoUploaderName`),
-    CONSTRAINT `video_ibfk_1` FOREIGN KEY (`VideoUploaderName`)
-        REFERENCES `user` (`UserName`)
-)  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4 COLLATE = UTF8MB4_0900_AI_CI;
+  `VideoID` varchar(45) NOT NULL,
+  `VideoName` text NOT NULL,
+  `VideoType` varchar(45) DEFAULT NULL,
+  `VideoSize` bigint DEFAULT NULL,
+  `VideoLable` varchar(45) DEFAULT NULL,
+  `VideoURL` varchar(100) DEFAULT NULL,
+  `VideoMd5` varchar(45) DEFAULT NULL,
+  `VideoStatus` varchar(45) DEFAULT NULL,
+  `VideoUploaderName` varchar(45) NOT NULL,
+  `VideoUploadTime` datetime NOT NULL,
+  `VideoUploadIP` varchar(45) DEFAULT NULL,
+  `HasFeature` tinyint(1) DEFAULT NULL,
+  `FPS` varchar(45) DEFAULT NULL,
+  `timeLength` varchar(45) DEFAULT NULL,
+  `appealed` int DEFAULT '0',
+  PRIMARY KEY (`VideoID`),
+  UNIQUE KEY `VideoID` (`VideoID`),
+  KEY `VideoUploaderName` (`VideoUploaderName`),
+  CONSTRAINT `video_ibfk_1` FOREIGN KEY (`VideoUploaderName`) REFERENCES `user` (`UserName`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -262,7 +359,7 @@ CREATE TABLE `video` (
 
 LOCK TABLES `video` WRITE;
 /*!40000 ALTER TABLE `video` DISABLE KEYS */;
-INSERT INTO `video` VALUES ('1234417600','1234417600.mp4','mp4',244805200,NULL,NULL,'24859eab9dca54806d2222bc49553d56','审核通过','admin','2020-06-08 16:47:03',NULL,NULL,'25','01:28:23:13'),('1243533500','1243533500.mp4','mp4',189205315,NULL,NULL,'32cd8800cb5c227734182b0dcbd96919','审核通过','admin','2020-06-08 16:54:14',NULL,NULL,'25','01:07:54:09'),('1244621900','1244621900.mp4','mp4',74773504,NULL,NULL,'a7050d4ee1ae7de9dc970118f82a5d39','审核通过','admin','2020-06-08 16:01:39',NULL,NULL,'25','00:28:10:20'),('1244627000','1244627000.mp4','mp4',62464961,NULL,NULL,'cec440d4a2fa2cfaef3e091081980c65','审核通过','admin','2020-06-08 16:25:40',NULL,NULL,'25','00:23:40:14'),('1260706600','1260706600.mp4','mp4',173443240,NULL,NULL,'4476c0488eeaf8db755febf1dceee16f','审核通过','admin','2020-06-08 16:37:54',NULL,NULL,'25','01:02:06:21'),('1293727100','1293727100.mp4','mp4',76570878,NULL,NULL,'522c61f3b50b47105a419ab5e85bdc6c','审核通过','admin','2020-06-08 16:11:47',NULL,NULL,'25','1293727100'),('1293730300','1293730300.mp4','mp4',46369767,NULL,NULL,'310bd312a4c079ffa13ff329be225779','审核通过','admin','2020-06-08 16:21:19',NULL,NULL,'25','00:17:21:05'),('20200608230235294134','测试视频3-1244621900.mp4','mp4',3666906,NULL,NULL,'d2d8fb574b467acf53a4f417e87ce1e7','不通过','r','2020-06-08 23:02:35',NULL,NULL,'10.0','00:01:43:03'),('417605300','417605300.mp4','mp4',48066911,NULL,NULL,'52cff65a1be77b62bfc3202f8b2f38e5','审核通过','admin','2020-06-08 15:51:12',NULL,NULL,'25','00:17:28:19');
+INSERT INTO `video` VALUES ('1234417600','1234417600.mp4','mp4',244805200,NULL,NULL,'24859eab9dca54806d2222bc49553d56','审核通过','admin','2020-09-23 16:47:03',NULL,NULL,'25','01:28:23:13',0),('1243533500','1243533500.mp4','mp4',189205315,NULL,NULL,'32cd8800cb5c227734182b0dcbd96919','审核通过','admin','2020-10-08 16:54:14',NULL,NULL,'25','01:07:54:09',0),('1244621900','1244621900.mp4','mp4',74773504,NULL,NULL,'a7050d4ee1ae7de9dc970118f82a5d39','审核通过','admin','2020-09-29 16:01:39',NULL,NULL,'25','00:28:10:20',0),('1244627000','1244627000.mp4','mp4',62464961,NULL,NULL,'cec440d4a2fa2cfaef3e091081980c65','审核通过','admin','2020-10-16 16:25:40',NULL,NULL,'25','00:23:40:14',0),('1260706600','1260706600.mp4','mp4',173443240,NULL,NULL,'4476c0488eeaf8db755febf1dceee16f','审核通过','admin','2020-10-06 16:37:54',NULL,NULL,'25','01:02:06:21',0),('1293727100','1293727100.mp4','mp4',76570878,NULL,NULL,'522c61f3b50b47105a419ab5e85bdc6c','审核通过','admin','2020-09-27 16:11:47',NULL,NULL,'25','00:28:46:20',0),('1293730300','1293730300.mp4','mp4',46369767,NULL,NULL,'310bd312a4c079ffa13ff329be225779','审核通过','admin','2020-10-18 16:21:19',NULL,NULL,'25','00:17:21:05',0),('20200608230235294134','测试视频3-1244621900.mp4','mp4',3666906,NULL,NULL,'d2d8fb574b467acf53a4f417e87ce1e7','不通过','r','2020-06-08 23:02:35',NULL,NULL,'10.0','00:01:43:03',0),('20200919221024373598','测试视频1-1293727100.mp4','mp4',1277030,NULL,NULL,'2e02de7a54e4499b7fc025a6748e55db','不通过','admin','2020-09-27 22:10:24',NULL,NULL,'15.0','00:01:04:02',1),('20200927110108906880','测试视频4-1244627000.mp4','mp4',1378358,NULL,NULL,'56cda5c72c5894d80cab8c2b34b5c883','不通过','admin','2020-09-23 11:01:08',NULL,NULL,'10.0','00:00:57:08',0),('20200929105601100677','测试视频3-1293727100.mp4','mp4',5116884,NULL,NULL,'9f73fdddabb4adc2d274ef992e6a0a63','不通过','admin','2020-07-29 10:56:01',NULL,NULL,'15.0','00:01:18:09',0),('20200929105837392471','测试视频5-1293727100.mp4','mp4',6096998,NULL,NULL,'da3a6fbda52a0a2415a6d35a7da91603','不通过','admin','2020-10-14 10:58:37',NULL,NULL,'15.0','00:03:16:03',0),('20201008120231877931','测试视频6-1243533500.mp4','mp4',4459061,NULL,NULL,'289f00f366c360e6dfde7a2d70b3bdb7','不通过','test1','2020-10-08 12:02:31',NULL,NULL,'15.0','00:01:56:08',1),('20201008120509345731','测试视频17-1243533500.mp4','mp4',1753332,NULL,NULL,'503e811b458605ebd8ac1670b0d6ef57','不通过','test1','2020-10-08 12:05:09',NULL,NULL,'15.0','00:00:47:12',1),('20201008120632322611','测试视频2-1243533500.mp4','mp4',1344039,NULL,NULL,'618290782ab9d044a0f81f16c5f9f5b4','不通过','test1','2020-10-08 12:06:32',NULL,NULL,'15.0','00:01:10:05',1),('20201010192428351593','测试视频1-1244627000.mp4','mp4',2591022,NULL,NULL,'730e34026730393ed439e2ecebd83018','不通过','admin','2020-10-18 19:24:28',NULL,NULL,'15.0','00:00:53:12',1),('20201012174650284263','测试视频5-1244627000.mp4','mp4',5524267,NULL,NULL,'35c3b966019a042b2f27b8917159012b','不通过','admin','2020-10-18 17:46:50',NULL,NULL,'15.0','00:02:15:08',0),('20201013220249062706','测试视频6-1244621900.mp4','mp4',2847466,NULL,NULL,'fd8b8161e1c844613a97b244eb0402e2','不通过','admin','2020-10-13 22:02:49',NULL,NULL,'15.0','00:01:14:07',0),('417605300','417605300.mp4','mp4',48066911,NULL,NULL,'52cff65a1be77b62bfc3202f8b2f38e5','审核通过','admin','2020-06-08 15:51:12',NULL,NULL,'25','00:17:28:19',0);
 /*!40000 ALTER TABLE `video` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -275,4 +372,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-09-14 23:43:53
+-- Dump completed on 2020-10-19 22:33:21
